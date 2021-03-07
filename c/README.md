@@ -16,6 +16,6 @@ Use Valgrind to detect memory mismanagement.
 [valgrind](http://cs.ecs.baylor.edu/~donahoo/tools/valgrind/)
 
 ```
-valgrind --tool=memcheck --leak-check=yes --show-reachable=no --num-callers=1 --track-fds=no ./ch1
+valgrind --tool=memcheck --leak-check=yes --show-reachable=no --num-callers=1 --track-fds=no ./ch1.elf
 ```
 
