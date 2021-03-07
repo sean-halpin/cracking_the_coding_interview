@@ -42,13 +42,13 @@ gboolean all_unique(GString *input)
             gint32 *val = g_new(gint32, 1);
             *val = 1;
             g_hash_table_insert(ht, g_strdup(current->str), val);
-            g_string_free(current, TRUE);
         }
         else
         {
             g_print("Occupied: %d\n", *entry);
             *entry = *entry + 1;
         }
+        g_string_free(current, TRUE);
     }
     gboolean result = FALSE;
     g_hash_table_foreach(ht, (GHFunc)print_kv, (gpointer)&result);
@@ -60,6 +60,16 @@ gboolean all_unique(GString *input)
 int main()
 {
     /* https://developer.gnome.org/glib/stable/glib-Strings.html#g-string-new */
+    GString *input_a = g_string_new("abcdefghijjj");
+    gboolean result_a = all_unique(input_a);
+    if (!result_a)
+    {
+        g_print("All Characters are unique %s\n", input_a->str);
+    }
+    else
+    {
+        g_print("All Characters are not unique %s\n", input_a->str);
+    }
     GString *input = g_string_new("abcdefghij");
     gboolean result = all_unique(input);
     if (!result)
@@ -70,6 +80,7 @@ int main()
     {
         g_print("All Characters are not unique %s\n", input->str);
     }
+    g_string_free(input_a, TRUE);
     g_string_free(input, TRUE);
     return 0;
 }
