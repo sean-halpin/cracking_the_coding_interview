@@ -27,7 +27,7 @@ print_kv(const gchar *key,
 
 gboolean all_unique(GString *input)
 {
-    GHashTable *ht = g_hash_table_new(g_str_hash, g_str_equal);
+    GHashTable *ht = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
     gchar *input_str = input->str;
     size_t i = 0;
     for (i = 0; i < input->len; i++)
@@ -42,6 +42,7 @@ gboolean all_unique(GString *input)
             gint32 *val = g_new(gint32, 1);
             *val = 1;
             g_hash_table_insert(ht, g_strdup(current->str), val);
+            g_string_free(current, TRUE);
         }
         else
         {
@@ -51,6 +52,8 @@ gboolean all_unique(GString *input)
     }
     gboolean result = FALSE;
     g_hash_table_foreach(ht, (GHFunc)print_kv, (gpointer)&result);
+    g_hash_table_remove_all(ht);
+    g_hash_table_unref(ht);
     return result;
 }
 
