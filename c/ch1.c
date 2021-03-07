@@ -15,10 +15,14 @@
 
 static void
 print_kv(const gchar *key,
-         const gint32 *value)
+         const gint32 *value,
+         gboolean *userdata)
 {
-    g_print("Key: %s Value: %d\n", key, *value);
-    g_print("Key: %d Value: %d\n", key, value);
+    g_print("Key: %s Value: %d Bool: %d\n", key, *value, *userdata);
+    if (*value > 1)
+    {
+        *userdata = TRUE;
+    }
 }
 
 gboolean all_unique(GString *input)
@@ -45,16 +49,24 @@ gboolean all_unique(GString *input)
             *entry = *entry + 1;
         }
     }
-    g_hash_table_foreach(ht, (GHFunc)print_kv, NULL);
-    g_print("%s\n", input_str);
-    return TRUE;
+    gboolean result = FALSE;
+    g_hash_table_foreach(ht, (GHFunc)print_kv, (gpointer)&result);
+    return result;
 }
 
 int main()
 {
     /* https://developer.gnome.org/glib/stable/glib-Strings.html#g-string-new */
-    GString *input = g_string_new("zazzzzzzzzzzz a");
-    all_unique(input);
+    GString *input = g_string_new("abcdefghij");
+    gboolean result = all_unique(input);
+    if (!result)
+    {
+        g_print("All Characters are unique %s\n", input->str);
+    }
+    else
+    {
+        g_print("All Characters are not unique %s\n", input->str);
+    }
     g_string_free(input, TRUE);
     return 0;
 }
