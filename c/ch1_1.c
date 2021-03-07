@@ -10,6 +10,12 @@
 /* pkg-config --cflags --libs gmodule-2.0 */
 /* gcc ./ch1.c `pkg-config --cflags --libs glib-2.0` -o ch1 */
 
+/*
+gcc -g -O0 --std=c89 ./ch1_2.c `pkg-config --cflags --libs glib-2.0` -o ch1_2.elf
+./ch1_2.elf
+valgrind --tool=memcheck --leak-check=yes --show-reachable=no --num-callers=1 --track-fds=no ./ch1_2.elf
+*/
+
 #include <glib.h>
 #include <gmodule.h>
 
